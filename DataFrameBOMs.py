@@ -1,6 +1,6 @@
 import pandas as pd
 import os
-
+pd.set_option('display.max_columns',20)
 
 # create list of files to import
 folder = r"C:\Users\coffmlv\Documents\1_ESD\Inventory Lead Time\BOMs"
@@ -23,7 +23,7 @@ for dataframe, filename in zip(list_dfs, filelist):
 # concatenate each of the dataframes into a large dataframe
 testData = pd.concat(list_dfs, ignore_index=True)
 
-print(testData.head(50))
+#print(testData.head())
 
 
 
