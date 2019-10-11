@@ -1,14 +1,29 @@
 import pandas as pd
 import os
 
-path = r"C:\Users\coffmlv\Documents\1_ESD\Inventory Lead Time\BOMs\011-CLSFFDA.88.txt"
 
+# create list of files to import
+folder = r"C:\Users\coffmlv\Documents\1_ESD\Inventory Lead Time\BOMs"
+filelist = os.listdir(folder)
+
+# call out specific column names to include (ignoring all others)
 colNames = ['Obj    ', 'Object description                      ', 'Quantity', 'Un']
 
-testData = pd.read_csv(path, sep='|', skiprows=9, comment="-", usecols=colNames)
-testData['CatItem'] = os.path.basename(path[:-4])
+list_dfs = []
+# loop through and import each file as a dataframe in the list object
+for filename in filelist:
+    path = os.path.join(folder, filename)
+    #print(path)
+    list_dfs.append(pd.read_csv(os.path.realpath(path), sep='|', skiprows=9, comment="-", usecols=colNames, encoding='unicode_escape'))
 
-print(testData.head())
+# add the file name as a new column to each dataframe
+for dataframe, filename in zip(list_dfs, filelist):
+    dataframe['CatItem'] = filename[:-4]
+
+# concatenate each of the dataframes into a large dataframe
+testData = pd.concat(list_dfs, ignore_index=True)
+
+print(testData.head(50))
 
 
 
