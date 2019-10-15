@@ -1,5 +1,6 @@
 import pandas as pd
 import os
+from Strip import strip_obj
 pd.set_option('display.max_columns',20)
 
 # create list of files to import
@@ -14,16 +15,21 @@ list_dfs = []
 for filename in filelist:
     path = os.path.join(folder, filename)
     #print(path)
-    list_dfs.append(pd.read_csv(os.path.realpath(path), sep='|', skiprows=9, comment="-", usecols=colNames, encoding='unicode_escape'))
+    list_dfs.append(pd.read_csv(os.path.realpath(path), sep='|', skiprows=9, comment="-", usecols=colNames, encoding='unicode_escape').rename(columns=lambda x: x.strip()))
 
 # add the file name as a new column to each dataframe
 for dataframe, filename in zip(list_dfs, filelist):
     dataframe['CatItem'] = filename[:-4]
 
 # concatenate each of the dataframes into a large dataframe
-testData = pd.concat(list_dfs, ignore_index=True)
+bom = pd.concat(list_dfs, ignore_index=True)
+bom = bom.apply(strip_obj, axis=0)
 
-#print(testData.head())
+NewColNames = {'Obj':'PartNumber', 'Object description':'PartDesc', 'Quantity':'BomQty', 'Un':'BOMunit'}
 
+bom = bom.rename(NewColNames, axis=1)
 
+# print(bom.columns)
+# print(bom.sample(20))
+# print(bom.iloc[3702])
 

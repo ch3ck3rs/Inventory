@@ -1,8 +1,10 @@
 import pandas as pd
-pd.set_option('display.max_columns',20)
+from Strip import strip_obj
+pd.set_option('display.max_columns',50)
+pd.set_option('display.width',150)
 
-path = r"C:\Users\coffmlv\Documents\1_ESD\PTS Equip Standardization Tracker.xlsx"
 
+path = r"C:\Users\coffmlv\Documents\1_ESD\Catalog\PTS Equip Standardization Tracker.xlsx"
 
 list = pd.read_excel(path, sheet_name=None, skiprows=3, comment="COUNT")
 
@@ -30,11 +32,12 @@ for sheet in key:
 
 MidCatalog = pd.concat(list, ignore_index=True, sort=False)
 
-Catalog = MidCatalog.filter(items=['Product Line', 'SAP Product Number', 'Description', 'Mechanical Drawings',
+catalog = MidCatalog.filter(items=['Product Line', 'SAP Product Number', 'Description', 'Mechanical Drawings',
        'Electical Drawings', 'BOM Status', 'Software', 'QC Work Instructions', 'Cost Roll',
        'SAP P/N Status', 'Installation & Operation Manual',
        'Quick Start Guide', 'Spec Sheet', 'Brochure',
        'Outline Agreements & Costs in SAP'])
+catalog = catalog.apply(strip_obj, axis=0)
 
-#print(Catalog.columns)
-#print(Catalog.head())
+# print(catalog.columns)
+# print(catalog.sample)
