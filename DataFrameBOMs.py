@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import os
 from Strip import strip_obj
 pd.set_option('display.max_columns',20)
@@ -28,8 +29,11 @@ bom = bom.apply(strip_obj, axis=0)
 NewColNames = {'Obj':'PartNumber', 'Object description':'PartDesc', 'Quantity':'BomQty', 'Un':'BOMunit'}
 
 bom = bom.rename(NewColNames, axis=1)
+bom['BomQty'] = pd.to_numeric(bom.BomQty)
+bom['BomQty'] = bom.BomQty.fillna(0.0)
+
 
 # print(bom.columns)
 # print(bom.sample(20))
 # print(bom.iloc[3702])
-
+# print(bom['BomQty'].describe())

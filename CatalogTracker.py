@@ -28,7 +28,7 @@ for sheet in key:
     list[sheet].dropna(how='all')
     list[sheet] = list[sheet][pd.notnull(list[sheet].iloc[:,2])]
     list[sheet] = list[sheet][col]
-    #print(list[sheet].head())
+    #print(list[sheet]. head())
 
 MidCatalog = pd.concat(list, ignore_index=True, sort=False)
 
@@ -39,5 +39,7 @@ catalog = MidCatalog.filter(items=['Product Line', 'SAP Product Number', 'Descri
        'Outline Agreements & Costs in SAP'])
 catalog = catalog.apply(strip_obj, axis=0)
 
+# catalog.to_csv(r"C:\Users\coffmlv\Documents\1_ESD\Catalog\Tracker.csv")
 # print(catalog.columns)
-# print(catalog.sample)
+# print(catalog.sample(5))
+# print(catalog)

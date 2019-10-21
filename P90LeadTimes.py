@@ -12,13 +12,19 @@ lead_all = pd.read_csv(os.path.realpath(path), sep='|', comment="-", encoding='u
 lead_all = lead_all.rename(columns=lambda x: x.strip())
 lead_all.dropna(how='all')
 lead_notnull = lead_all[pd.notnull(lead_all.iloc[:,6])]
-lead = lead_notnull[colNames]
-lead = lead.apply(strip_obj, axis=0)
+lead_multi = lead_notnull[colNames]
+lead_multi = lead_multi.apply(strip_obj, axis=0)
 
-NewColNames = {'D':'DeletionFlag', 'Per':'PricingQuantity', 'OPU':'PricingUnit', 'Order Quantity':'MinOrderQty',
-               'OUn':'MinOrderUnit', 'PTm':'PlannedLeadTime'}
+NewColNames = {'D':'DeletionFlag', 'Changed On':'ChangedOn', 'Per':'PricingQuantity', 'OPU':'PricingUnit', 'Order Quantity':'MinOrderQty',
+               'OUn':'MinOrderUnit', 'Net Price':'NetPrice', 'PTm':'PlannedLeadTime'}
 
-lead = lead.rename(NewColNames, axis=1)
+lead_multi = lead_multi.rename(NewColNames, axis=1)
+
+lead_multi.ChangedOn = pd.to_datetime(lead_multi.ChangedOn)
+lead = lead_multi.sort_values('ChangedOn').drop_duplicates(['Material'], keep='last')
+
+# lead = lead.loc[lead['Material'] == 'PTS1001']
 
 # print(lead.columns)
+
 # print(lead.head(20))
