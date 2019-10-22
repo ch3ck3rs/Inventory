@@ -1,4 +1,4 @@
-from PartsToInventory import *
+from InventoryParts import *
 pd.set_option('display.max_columns', 50)
 pd.set_option('display.width', 150)
 
@@ -15,9 +15,11 @@ def get_HighLevel(ProductLine):
     return line
 
 
-def get_products(ProductList):
+def get_products(ProductLine):
     """returns list of products for a given product line"""
-    products = tracker.catalog[tracker.catalog['Product Line'] == ProductList]
+    products = tracker.catalog[tracker.catalog['Product Line'].str.contains(ProductLine, na=False)]
+            # TODO make more robust using LIKE
+             # original line >> tracker.catalog[tracker.catalog['Product Line'] == ProductLine]
     products = products['SAP Product Number'].tolist()
     return products
 

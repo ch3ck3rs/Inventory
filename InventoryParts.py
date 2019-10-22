@@ -17,7 +17,7 @@ def get_bom(CatItem):
 
 def get_CatalogItems(part):
     """returns DataFrame containing part number, part description and qty needed in BOM for a catalog item"""
-    df = boms.bom.loc[boms.bom['PartNumber'] == part]
+    df = boms.bom[boms.bom['PartNumber'] == part]
     return df
 
 
@@ -47,14 +47,17 @@ def get_leadCat(CatItem):
     return df
 
 
-def get_leadPart(part, Product_line):
+def get_leadPart(part, product_line):
     """returns DataFrame that contains lead time and cost for a given list of items assuming one product line
     i.e. - 'USP', 'HI', 'LI', '8RO', '4RO' """
 
     df_bom_all = get_CatalogItems(part)
-    Cat_Items_df = tracker.catalog.loc[tracker.catalog['Product Line'] == Product_line]
-    Cat_Items = Cat_Items_df['SAP Product Number'].tolist()
-    df_bom = df_bom_all[df_bom_all['CatItem'].isin(Cat_Items)]
+    cat_items_df = tracker.catalog[tracker.catalog['Product Line'].str.contains(product_line, na=False)]
+    # TODO make more robust using LIKE
+    #  tracker.catalog.loc[tracker.catalog['Product Line'] == product_line]
+
+    cat_items = cat_items_df['SAP Product Number'].tolist()
+    df_bom = df_bom_all[df_bom_all['CatItem'].isin(cat_items)]
 
     col = ['DeletionFlag', 'Material', 'ChangedOn', 'NetPrice', 'Crcy', 'PlannedLeadTime']
 
