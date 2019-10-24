@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import os
 from Strip import strip_obj
-pd.set_option('display.max_columns',20)
+# pd.set_option('display.max_columns',20)
 
 # create list of files to import
 folder = r"C:\Users\coffmlv\Documents\1_ESD\Inventory Lead Time\BOMs"
@@ -35,5 +35,5 @@ bom['BomQty'] = bom.BomQty.fillna(0.0)
 
 # print(bom.columns)
 # print(bom.sample(20))
-# print(bom.iloc[3702])
+# print(bom[bom['CatItem'].str.contains('USP-230AS50.88')])
 # print(bom['BomQty'].describe())

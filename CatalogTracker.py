@@ -1,7 +1,7 @@
 import pandas as pd
 from Strip import strip_obj
-pd.set_option('display.max_columns',50)
-pd.set_option('display.width',150)
+# pd.set_option('display.max_columns',50)
+# pd.set_option('display.width',150)
 
 
 path = r"C:\Users\coffmlv\Documents\1_ESD\Catalog\PTS Equip Standardization Tracker.xlsx"
@@ -15,8 +15,10 @@ col = ['Product Line', 'SAP Product Number', 'Description', 'Mechanical Drawings
        'Quick Start Guide', 'Spec Sheet', 'Brochure',
        'Outline Agreements & Costs in SAP']
 
+sheet_ban = ['SUMMARY', '4" RO Axeon', '8" RO XLX']
+
 for item in list.keys():
-    if item == "SUMMARY":
+    if item in sheet_ban:
         pass
     else:
         key.append(item)
@@ -42,4 +44,4 @@ catalog = catalog.apply(strip_obj, axis=0)
 # catalog.to_csv(r"C:\Users\coffmlv\Documents\1_ESD\Catalog\Tracker.csv")
 # print(catalog.columns)
 # print(catalog.sample(5))
-# print(catalog)
+print(catalog['Product Line'])

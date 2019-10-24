@@ -18,8 +18,16 @@ def get_8ROdemand():
     demand = demand.rename(col_rename, axis=1)
 
     # group by SAP Number
-    demand = demand.groupby('Catalog_item').agg({2010:['sum'], 2011:['sum'], 2012:['sum'], 2013:['sum'], 2014:['sum'],
+    demand_group = demand.groupby('Catalog_item').agg({2010:['sum'], 2011:['sum'], 2012:['sum'], 2013:['sum'], 2014:['sum'],
                                                  2015:['sum'], 2016:['sum'], 2017:['sum'], 2018:['sum'], 'Total':['sum']})
+    demand_group['Catalog_Item'] = demand_group.index
+
+    # reset index
+    demand = demand_group.reset_index(drop=True)
+
+    # add average demand per year
+    years = len(demand.columns) - 1
+    demand['avg_demand'] = demand['Total'] / years
 
     return demand
 
@@ -41,12 +49,20 @@ def get_USPdemand():
     demand_notnull = demand_notnull.rename(col_rename, axis=1)
 
     # group by SAP Number
-    demand = demand_notnull.groupby('Catalog_item').agg({2015:['sum'], 2016:['sum'], 2017:['sum'], 2018:['sum'], 'Total':['sum']})
+    demand_group = demand_notnull.groupby('Catalog_item').agg({2015:['sum'], 2016:['sum'], 2017:['sum'], 2018:['sum'], 'Total':['sum']})
+    demand_group['Catalog_Item'] = demand_group.index
+
+    # reset index
+    demand = demand_group.reset_index(drop=True)
+
+    # add average demand per year
+    years = len(demand.columns) - 1
+    demand['avg_demand'] = demand['Total'] / years
 
     return demand
 
 
-def get_LIDemand():
+def get_LIdemand():
     col = ['Nalco Part Number', 2015, 2016, 2017, 2018, 'Total']
     col_rename = {'Nalco Part Number': 'Catalog_item'}
 
@@ -59,13 +75,21 @@ def get_LIDemand():
     demand_notnull = demand_notnull.rename(col_rename, axis=1)
 
     # group by SAP Number
-    demand = demand_notnull.groupby('Catalog_item').agg(
+    demand_group = demand_notnull.groupby('Catalog_item').agg(
         {2015: ['sum'], 2016: ['sum'], 2017: ['sum'], 2018: ['sum'], 'Total': ['sum']})
+    demand_group['Catalog_Item'] = demand_group.index
+
+    # reset index
+    demand = demand_group.reset_index(drop=True)
+
+    # add average demand per year
+    years = len(demand.columns) - 1
+    demand['avg_demand'] = demand['Total'] / years
 
     return demand
 
 
-def get_HIDemand():
+def get_HIdemand():
     col = ['Nalco Part Number', 2015, 2016, 2017, 2018, 'Total']
     col_rename = {'Nalco Part Number': 'Catalog_item'}
 
@@ -78,10 +102,40 @@ def get_HIDemand():
     demand_notnull = demand_notnull.rename(col_rename, axis=1)
 
     # group by SAP Number
-    demand = demand_notnull.groupby('Catalog_item').agg(
+    demand_group = demand_notnull.groupby('Catalog_item').agg(
         {2015: ['sum'], 2016: ['sum'], 2017: ['sum'], 2018: ['sum'], 'Total': ['sum']})
+    demand_group['Catalog_Item'] = demand_group.index
+
+    # reset index
+    demand = demand_group.reset_index(drop=True)
+
+    # add average demand per year
+    years = len(demand.columns) - 1
+    demand['avg_demand'] = demand['Total'] / years
 
     return demand
 
+def get_demand(product_line):
+    if 'USP' in product_line.upper():
+        demand = get_USPdemand()
 
-# print(get_LIDemand().head())
+    elif 'LI' in product_line.upper():
+        demand = get_LIdemand()
+        if len(product_line) > 2:
+            # filter demand to the specific line
+            pass
+    elif 'HI' in product_line.upper():
+        demand = get_HIdemand()
+
+    return demand
+
+def get_demand_for_list(CatItems, product_line):
+    """return the total demand for a subset of the product line
+        give list of catalog items and the product line"""
+
+    demand_all = get_demand(product_line)
+    demand = demand_all[demand_all['Catalog_Item'].isin(CatItems)]
+
+    return demand
+
+# print(get_USPdemand().head())

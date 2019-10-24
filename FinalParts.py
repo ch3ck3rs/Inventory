@@ -29,36 +29,49 @@ def get_Inventory(part_list, line):
 ###
 
 
-def get_final(product_line):
+def get_final(product_line, percentage=None):
     """Product Lines are
         ['4" RO', '8" RO', 'LI CF', 'LI DEALK', 'LI IF', 'LI MMF', 'LI SOFT', 'USP']
+        Choose 1 for that specific line, or ['RO', 'HI', 'LI', 'USP'] for category
 
-        Choose 1 for that specific line, or ['RO', 'HI', 'LI', 'USP'] for category"""
+        percentage determines the % of BOMs an item must show up in for the percentage of BOMs dataframe.
+        default is 75%
+
+        Returns list of df = [ parts common to all BOMs, parts common to percentage of BOMs, parts in every BOM]"""
+
+    final_list = []
+    percentage = percentage or .75
 
     product_list = get_products(product_line)
-    all_f, most_f, everything_f = get_common(product_list)
-
-    # check for empty dataframes
-    #if len(all_f.index) ==0:
-
-
-    list_parts_all = all_f['Part'].values
-    list_parts_most = most_f['Part'].values
-    list_parts_everything = everything_f['Part'].values
+    common_products, num_of_products, percent_used = get_common(product_list, percentage)
 
     col = ['Part', 'description', 'Appearances', 'Total_Qty', 'Percent_of_BOMs', 'lead', 'price',
            'qty_max', 'qty_min', 'qty_avg']
 
-    all1 = pd.merge(all_f, get_Inventory(list_parts_all, product_line), right_on="part",  left_on="Part", how="left")
-    # TODO getting key error on 'part' for LI but not for USP.
-    most1 = pd.merge(most_f, get_Inventory(list_parts_most, product_line), right_on="part",  left_on="Part", how="left")
-    everything1 = pd.merge(everything_f, get_Inventory(list_parts_everything, product_line), right_on="part",  left_on="Part", how="left")
+    # check for empty dataframes and then merge
 
-    return all1[col], most1[col], everything1[col]
+    for df in common_products:
+        if len(df.index) == 0:
+            df.append({"Part":"No Values Returned"}, ignore_index=True)
+            final_list.append(df)
+        else:
+            list_parts = df['Part'].values
+
+            merged_df = pd.merge(df, get_Inventory(list_parts, product_line),
+                                 right_on="part",  left_on="Part", how="left")
+            final_list.append(merged_df[col])
+
+    return final_list, num_of_products, percent_used
 
 
-# all, most, everything = get_final("LI")
+final, num, percent = get_final('LI', percentage=0.2)
 
-# print(all.sample(10), '\n')
-# print(most.sample(10), '\n')
-# print(everything.sample(10))
+# print("_",num,"_ catalog items are being considered")
+# print("_",percent,"_ percentage used to calculate the MOST graph")
+# print("_",len(final[2]['Part'].tolist()),"_ parts considered")
+#
+# for df in final:
+#     if len(df.index) == 0:
+#         print('\nNo Items Returned \n')
+#     else:
+#         print(df.head(), '\n')

@@ -1,8 +1,8 @@
 import pandas as pd
 import os
 from Strip import strip_obj
-pd.set_option('display.max_columns',50)
-pd.set_option('display.width',200)
+# pd.set_option('display.max_columns', 50)
+# pd.set_option('display.width', 200)
 
 path = r"C:\Users\coffmlv\Documents\1_ESD\Inventory Lead Time\Plant 90 Leadtimes - 10.9.19.txt"
 colNames = ['Purch.Doc.', 'D', 'Plnt', 'Vendor', 'Material', 'Short Text', 'Changed On', 'Net Price',

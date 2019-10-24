@@ -1,7 +1,7 @@
 import pandas as pd
 from Strip import strip_obj
-pd.set_option('display.max_columns',50)
-pd.set_option('display.width',200)
+# pd.set_option('display.max_columns',50)
+# pd.set_option('display.width',200)
 
 path = r"C:\Users\coffmlv\Documents\1_ESD\Costing\ZCOST_ACC.xlsx"
 

@@ -2,7 +2,7 @@ import pandas as pd
 import DataFrameBOMs as boms
 import CatalogTracker as tracker
 import P90LeadTimes as leadtime
-pd.set_option('display.width',200)
+# pd.set_option('display.width',200)
 
 # boms.bom
 # costed.cost
@@ -84,7 +84,7 @@ def get_partslist(CatItem, LeadTimes):
 
         for time in LeadTimes:
             lead_days = time * 5  # time is in weeks, convert to work days
-            mfg_time = 10  # in work days
+            mfg_time = 30  # in work days
             order_time = lead_days - mfg_time
             item_parts = []
             item_cost = 0.0
@@ -110,12 +110,23 @@ def get_partslist(CatItem, LeadTimes):
             parts_list[dict_key] = dict_list
             parts_cost[dict_key] = dict_cost
 
-    return parts_cost, parts_list
+    df_cost = pd.DataFrame.from_dict(parts_cost, orient='index').fillna(0)
+    df_list = pd.DataFrame.from_dict(parts_list, orient='index').fillna(0)
+
+    df_cost['CatalogItem'] = df_cost.index
+    df_list['CatalogItem'] = df_list.index
+
+    df_cost = df_cost.reset_index(drop=True)
+    df_list = df_list.reset_index(drop=True)
+
+    return df_cost, df_list
 
 
 testLeads = [6, 8, 10, 12]  # weeks lead time
 testItems = ['USP-120AS50.88', 'USP-136AS50.88', 'USP-230AS50.88', '011-SLDFVLEX.88']
-# print(get_partslist(testItems, testLeads))
+testPrint = get_partslist(testItems, testLeads)
+# for df in testPrint:
+#     print(df, '\n')
 
 testItem = 'USP-120AS50.88'
 # print(get_leadCat(testItem).head())

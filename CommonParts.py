@@ -1,6 +1,6 @@
 from InventoryParts import *
-pd.set_option('display.max_columns', 50)
-pd.set_option('display.width', 150)
+# pd.set_option('display.max_columns', 50)
+# pd.set_option('display.width', 150)
 
 
 def get_HighLevel(ProductLine):
@@ -24,19 +24,15 @@ def get_products(ProductLine):
     return products
 
 
-def get_common(ProductList):
+def get_common(ProductList, most=None):
     """Given a list of products, returns dataframes for all, most, everything.
     Most is defined as 25% of catalog items or 5 items, which ever is larger"""
 
     part_dict = {}
 
     list_len = len(ProductList)
-    quarter = list_len/4
-
-    if quarter >= 5:
-        most = 0.75
-    else:
-        most = 5/list_len
+    percentage = (5/list_len) if list_len < 20 else 0.75
+    most = most or percentage
 
     for item in ProductList:
         bom = get_bom(item)
@@ -65,7 +61,7 @@ def get_common(ProductList):
 
     df_most = df_everything.loc[df_everything['Percent_of_BOMs'] >= most]
 
-    return df_all, df_most, df_everything
+    return [df_all, df_most, df_everything], list_len, most
 
 
 
@@ -77,8 +73,8 @@ product_list = get_products("USP")
 testItem = ['USP-120AS50.88', 'USP-130AS25.88']
 testItem2 = ['USP-120AS50.88', 'USP-120AS25.88', 'USP-130AS50.88', 'USP-130AS25.88', 'USP-136AS50.88', 'USP-136AS25.88', 'USP-230AS50.88', 'USP-330AS50.88', 'USP-430AS50.88', 'USP-630AS50.88', 'USP-830AS50.88']
 
-all, most, everything = get_common(product_list)
 
-# print(all.describe(), '\n', most.describe(), '\n', everything.describe())
-# print(all.sample(5), '\n', most.sample(5), '\n', everything.sample(5))
 
+# final = get_common(product_list)
+# for df in final:
+#     print(df.head(), '\n')
