@@ -8,7 +8,8 @@ path = r"C:\Users\coffmlv\Documents\1_ESD\Catalog\PTS Equip Standardization Trac
 
 list = pd.read_excel(path, sheet_name=None, skiprows=3, comment="COUNT")
 
-key = []
+key = list.keys()
+
 col = ['Product Line', 'SAP Product Number', 'Description', 'Mechanical Drawings',
        'Electical Drawings', 'BOM Status', 'Software', 'QC Work Instructions', 'Cost Roll',
        'SAP P/N Status', 'Installation & Operation Manual',
@@ -17,15 +18,10 @@ col = ['Product Line', 'SAP Product Number', 'Description', 'Mechanical Drawings
 
 sheet_ban = ['SUMMARY', '4" RO Axeon', '8" RO XLX']
 
-for item in list.keys():
-    if item in sheet_ban:
-        pass
-    else:
-        key.append(item)
-#print(key)
+for item in sheet_ban:
+    list.pop(item)
 
-
-for sheet in key:
+for sheet in list.keys():
     #print(sheet)
     list[sheet].dropna(how='all')
     list[sheet] = list[sheet][pd.notnull(list[sheet].iloc[:,2])]
@@ -44,4 +40,5 @@ catalog = catalog.apply(strip_obj, axis=0)
 # catalog.to_csv(r"C:\Users\coffmlv\Documents\1_ESD\Catalog\Tracker.csv")
 # print(catalog.columns)
 # print(catalog.sample(5))
-print(catalog['Product Line'])
+# line = catalog['Product Line'].tolist()
+# print(set(line))

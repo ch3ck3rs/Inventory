@@ -38,27 +38,27 @@ col_null = ['PartNumber', 'PartDesc', 'Purch.Doc.', 'DeletionFlag', 'Plnt', 'Ven
 
 ###
 # print files to an excel sheet
-#
-# path = r'C:\Users\coffmlv\Documents\1_ESD\Inventory Lead Time\Results\Catalog_parts_not_setup.xlsx'
-# writer = pd.ExcelWriter(path)
-#
-# df_merge[col].to_excel(writer, sheet_name='All Catalog Parts')
-# df_null[col_null].to_excel(writer, sheet_name='Parts with no Lead')
-# df_not[col_null].to_excel(writer, sheet_name='Parts not setup')
-# df_all_null[col].to_excel(writer, sheet_name='Dup Parts with no Lead')
-#
-# writer.save()
+
+path = r'C:\Users\coffmlv\Documents\1_ESD\Inventory Lead Time\Results\Catalog_parts_not_setup.xlsx'
+writer = pd.ExcelWriter(path)
+
+df_merge[col].to_excel(writer, sheet_name='All Catalog Parts')
+df_null[col_null].to_excel(writer, sheet_name='Parts with no Lead')
+df_not[col_null].to_excel(writer, sheet_name='Parts not setup')
+df_all_null[col].to_excel(writer, sheet_name='Dup Parts with no Lead')
+
+writer.save()
 
 ###
 # graphs
 
 # df_app = df_merge1.loc[df_merge1['CatItem'].str.contains('USP')]
-
-final, num, percent = get_final('USP')
-
-df = final[2]
-
-# df_graph = pd.merge(df_app, df, left_on='PartNumber')
-
-# print(df_app.sample(10))
-g = sns.pairplot(df, x_vars=['lead'],y_vars=['Appearances', 'qty_avg'])
+#
+# final, num, percent = get_final('USP')
+#
+# df = final[2]
+#
+# # df_graph = pd.merge(df_app, df, left_on='PartNumber')
+#
+# # print(df_app.sample(10))
+# g = sns.pairplot(df, x_vars=['lead'],y_vars=['Appearances', 'qty_avg'])

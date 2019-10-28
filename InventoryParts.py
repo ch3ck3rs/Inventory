@@ -84,7 +84,7 @@ def get_partslist(CatItem, LeadTimes):
 
         for time in LeadTimes:
             lead_days = time * 5  # time is in weeks, convert to work days
-            mfg_time = 30  # in work days
+            mfg_time = 10  # in work days
             order_time = lead_days - mfg_time
             item_parts = []
             item_cost = 0.0
@@ -93,10 +93,9 @@ def get_partslist(CatItem, LeadTimes):
                 if part.PlannedLeadTime >= order_time:
                     item_parts.append(part.PartNumber)
                     # format string NetPrice
-                    priceL = part.NetPrice.split('.')
-                    price = priceL[0].replace(',', '.')
+                    price = part.NetPrice
 
-                    item_cost += float(part.BomQty) * float(price)
+                    item_cost += float(part.BomQty) * price
 
             if len(item_parts) == 0:
                 pass

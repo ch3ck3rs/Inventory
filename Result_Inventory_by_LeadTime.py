@@ -4,8 +4,8 @@ import CatalogTracker as tracker
 
 
 LeadTimes = [6, 8, 10, 12]
-product_line = '8" RO'
-mfg_time = 30  # change in InventoryParts.py line 87
+product_line = 'USP'
+mfg_time = 10  # change in InventoryParts.py line 87
 
 ###
 # for all inventory, use CatItems_all in get_partslist() below.
@@ -27,7 +27,7 @@ num = len(CatItems)
 summary = pd.DataFrame({'Title':['Product Line', 'Number of Products Considered', 'Lead Times Considered', 'MFG Time'],
                         'Value':[product_line, num, LeadTimes, mfg_time]})
 
-path = r'C:\Users\coffmlv\Documents\1_ESD\Inventory Lead Time\Results\LeadTime_Parts_8RO_20mfgDays.xlsx'
+path = r'C:\Users\coffmlv\Documents\1_ESD\Inventory Lead Time\Results\LeadTime_Parts_USP_10mfgDays.xlsx'
 writer = pd.ExcelWriter(path)
 
 summary.to_excel(writer, sheet_name='SUMMARY')

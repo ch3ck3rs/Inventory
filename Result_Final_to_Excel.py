@@ -1,12 +1,12 @@
 from FinalParts import *
 
-product_line = '8" RO'
+product_line = 'USP'
 final, num, percent = get_final(product_line, percentage=.2)
 
 summary = pd.DataFrame({'Title':['Product Line', 'Number of Products Considered', 'Percentage used for Most'],
                         'Value':[product_line, num, percent]})
 
-path = r"C:\Users\coffmlv\Documents\1_ESD\Inventory Lead Time\Results\FinalParts_8RO.xlsx"
+path = r"C:\Users\coffmlv\Documents\1_ESD\Inventory Lead Time\Results\FinalParts_USP.xlsx"
 writer = pd.ExcelWriter(path)
 
 summary.to_excel(writer, sheet_name='SUMMARY')

@@ -138,4 +138,4 @@ def get_demand_for_list(CatItems, product_line):
 
     return demand
 
-# print(get_USPdemand().head())
+# print(get_USPdemand())
