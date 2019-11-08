@@ -1,7 +1,7 @@
 import pandas as pd
 from Strip import strip_obj
-# pd.set_option('display.max_columns',50)
-# pd.set_option('display.width',150)
+# pd.set_option('display.max_columns', 50)
+# pd.set_option('display.width', 150)
 
 
 path = r"C:\Users\coffmlv\Documents\1_ESD\Catalog\PTS Equip Standardization Tracker.xlsx"
@@ -28,17 +28,36 @@ for sheet in list.keys():
     list[sheet] = list[sheet][col]
     #print(list[sheet]. head())
 
-MidCatalog = pd.concat(list, ignore_index=True, sort=False)
+Init_Catalog = pd.concat(list, ignore_index=True, sort=False)
 
-catalog = MidCatalog.filter(items=['Product Line', 'SAP Product Number', 'Description', 'Mechanical Drawings',
+catalog = Init_Catalog.filter(items=['Product Line', 'SAP Product Number', 'Description', 'Mechanical Drawings',
        'Electical Drawings', 'BOM Status', 'Software', 'QC Work Instructions', 'Cost Roll',
        'SAP P/N Status', 'Installation & Operation Manual',
        'Quick Start Guide', 'Spec Sheet', 'Brochure',
        'Outline Agreements & Costs in SAP'])
+
 catalog = catalog.apply(strip_obj, axis=0)
+
+dropped = []
+
+for row in catalog.itertuples():
+
+    part = row._2
+
+    if part.startswith('PTS'):
+        new_part = part.split(' / ')[1]
+        catalog.at[row.Index, 'SAP Product Number'] = new_part
+
+    elif '011' not in part and 'USP' not in part:
+        dropped.append(part)
+        catalog.drop(row.Index, inplace=True)
+
 
 # catalog.to_csv(r"C:\Users\coffmlv\Documents\1_ESD\Catalog\Tracker.csv")
 # print(catalog.columns)
-# print(catalog.sample(5))
+# print(catalog.sample(15))
 # line = catalog['Product Line'].tolist()
 # print(set(line))
+# prod = catalog['SAP Product Number'].tolist()
+# print(prod)
+# print(dropped)

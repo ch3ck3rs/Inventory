@@ -1,6 +1,12 @@
 # Bug Log
 
 ### Current bug log
+* CatalogTracker.py
+    * split SAP numbers at '/' keep if starts with 011 or USP
+    * repull product boms from SAP  #Issue2
+        * USP
+        * LI
+        * 8 RO
 
 ### Resolved bug log
 * ~~.py is not importing all the values in the source .txt~~
