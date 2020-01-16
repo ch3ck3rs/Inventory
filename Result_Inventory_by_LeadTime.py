@@ -1,11 +1,13 @@
 import pandas as pd
-from InventoryParts import get_partslist
+from Parts_Inventory import get_partslist
 import CatalogTracker as tracker
+from datetime import datetime
+import os
 
 
-LeadTimes = [6, 8, 10, 12]
+LeadTimes = [3, 4, 5, 6, 8, 10, 12]
 product_line = 'USP'
-mfg_time = 10  # change in InventoryParts.py line 87
+mfg_time = 15  # change in Parts_Inventory.py line 87
 
 ###
 # for all inventory, use CatItems_all in get_partslist() below.
@@ -24,11 +26,16 @@ num = len(CatItems)
 ###
 # sumarize data and put into excel. Change the file name in path below
 
+now = datetime.now()
+stamp = now.strftime("%m-%d-%y_%H-%M")
+
 summary = pd.DataFrame({'Title':['Product Line', 'Number of Products Considered', 'Lead Times Considered', 'MFG Time'],
                         'Value':[product_line, num, LeadTimes, mfg_time]})
 
-path = r'C:\Users\coffmlv\Documents\1_ESD\Inventory Lead Time\Results\LeadTime_Parts_USP_10mfgDays.xlsx'
-writer = pd.ExcelWriter(path)
+
+path = r"C:\Users\coffmlv\Documents\1_ESD\Inventory Lead Time\Results"
+base_name = "LeadTime_Parts_USP_"+str(mfg_time)+"mfgDays"+stamp+".xlsx"
+writer = pd.ExcelWriter(os.path.join(path, base_name))
 
 summary.to_excel(writer, sheet_name='SUMMARY')
 df_cost.to_excel(writer, sheet_name='Cost to Inventory')

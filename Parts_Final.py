@@ -1,5 +1,5 @@
-from CommonParts import *
-from InventoryParts import *
+from Parts_Common import *
+from Parts_Inventory import *
 pd.set_option('display.max_columns', 50)
 pd.set_option('display.width', 250)
 

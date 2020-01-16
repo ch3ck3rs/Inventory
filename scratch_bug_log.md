@@ -2,9 +2,9 @@
 
 ### Current bug log
 * CatalogTracker.py
-    * split SAP numbers at '/' keep if starts with 011 or USP
+    * ~~split SAP numbers at '/' keep if starts with 011 or USP~~
     * repull product boms from SAP  #Issue2
-        * USP
+        * ~~USP~~
         * LI
         * 8 RO
 

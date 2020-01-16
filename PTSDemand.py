@@ -28,13 +28,20 @@ def get_8ROdemand():
     # add average demand per year
     years = len(demand.columns) - 1
     demand['avg_demand'] = demand['Total'] / years
+    demand['100_percent'] = round(demand.avg_demand)
+    demand['80_percent'] = round(demand.avg_demand * 0.8)
+    demand['60_percent'] = round(demand.avg_demand * 0.6)
+    demand['40_percent'] = round(demand.avg_demand * 0.4)
+    demand['20_percent'] = round(demand.avg_demand * 0.2)
+    demand['vessel_size'] = demand.Catalog_Item.str[5:7]
+    demand['vessel_qty'] = demand.Catalog_Item.str[4:5]
 
     return demand
 
 
 def get_USPdemand():
 
-    col = ['SAP Number', 2015, 2016, 2017, 2018, 'Total', 'Recommendation']
+    col = ['SAP Number', 2015, 2016, 2017, 2018, 2019, 'Total', 'Recommendation']
     col_rename = {'SAP Number':'Catalog_item'}
 
     demand_all = pd.read_excel(path, sheet_name="Summary USP", skiprows=2)
@@ -49,7 +56,8 @@ def get_USPdemand():
     demand_notnull = demand_notnull.rename(col_rename, axis=1)
 
     # group by SAP Number
-    demand_group = demand_notnull.groupby('Catalog_item').agg({2015:['sum'], 2016:['sum'], 2017:['sum'], 2018:['sum'], 'Total':['sum']})
+    demand_group = demand_notnull.groupby('Catalog_item').agg({2015:['sum'], 2016:['sum'], 2017:['sum'], 2018:['sum'],
+                                                               2019:['sum'], 'Total':['sum']})
     demand_group['Catalog_Item'] = demand_group.index
 
     # reset index
@@ -58,6 +66,13 @@ def get_USPdemand():
     # add average demand per year
     years = len(demand.columns) - 1
     demand['avg_demand'] = demand['Total'] / years
+    demand['100_percent'] = round(demand.avg_demand)
+    demand['80_percent'] = round(demand.avg_demand * 0.8)
+    demand['60_percent'] = round(demand.avg_demand * 0.6)
+    demand['40_percent'] = round(demand.avg_demand * 0.4)
+    demand['20_percent'] = round(demand.avg_demand * 0.2)
+    demand['vessel_size'] = demand.Catalog_Item.str[5:7]
+    demand['vessel_qty'] = demand.Catalog_Item.str[4:5]
 
     return demand
 
@@ -85,6 +100,13 @@ def get_LIdemand():
     # add average demand per year
     years = len(demand.columns) - 1
     demand['avg_demand'] = demand['Total'] / years
+    demand['100_percent'] = round(demand.avg_demand)
+    demand['80_percent'] = round(demand.avg_demand * 0.8)
+    demand['60_percent'] = round(demand.avg_demand * 0.6)
+    demand['40_percent'] = round(demand.avg_demand * 0.4)
+    demand['20_percent'] = round(demand.avg_demand * 0.2)
+    demand['vessel_size'] = demand.Catalog_Item.str[5:7]
+    demand['vessel_qty'] = demand.Catalog_Item.str[4:5]
 
     return demand
 
@@ -112,6 +134,13 @@ def get_HIdemand():
     # add average demand per year
     years = len(demand.columns) - 1
     demand['avg_demand'] = demand['Total'] / years
+    demand['100_percent'] = round(demand.avg_demand)
+    demand['80_percent'] = round(demand.avg_demand * 0.8)
+    demand['60_percent'] = round(demand.avg_demand * 0.6)
+    demand['40_percent'] = round(demand.avg_demand * 0.4)
+    demand['20_percent'] = round(demand.avg_demand * 0.2)
+    demand['vessel_size'] = demand.Catalog_Item.str[5:7]
+    demand['vessel_qty'] = demand.Catalog_Item.str[4:5]
 
     return demand
 

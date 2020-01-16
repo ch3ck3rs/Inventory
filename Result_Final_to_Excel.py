@@ -1,4 +1,4 @@
-from FinalParts import *
+from Parts_Final import *
 
 product_line = 'USP'
 final, num, percent = get_final(product_line, percentage=.2)

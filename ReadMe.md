@@ -1,5 +1,10 @@
 # File Structure
 
+#### Changes made to file names that may not have changed in Jupyter
+* switched '??_Parts.py' to 'Parts _ ??.py'
+* Parts_Demand.py -> changed 'LeadTime' to 'TopLevel_LeadTime'
+Parts_Demand.py -> changed 'Lead' to 'Item_Lead'
+
 ### Source files to change
 * CatalogTracker.py     < Catalog/PTS Equip Standarsization Tracker.xlsx
 * DataFrameBOMs.py      < Inventory Lead Time/BOMs/
@@ -9,7 +14,7 @@
 * PTSDemand.py          < Inventory Lead Time/GlenwoodProduction_clean.xlsx
 
 ### Structure
-* ____Parts.py - are function files
+* Parts_???.py - are function files
 * Results_____.py - output files to excel
 *  % Analysis %.py are end result files
 

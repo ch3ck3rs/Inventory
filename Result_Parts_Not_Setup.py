@@ -2,7 +2,7 @@ import pandas as pd
 import seaborn as sns; sns.set(style="ticks", color_codes=True)
 import DataFrameBOMs as boms
 import P90LeadTimes as leadtime
-from FinalParts import *
+from Parts_Final import *
 import CatalogTracker as tracker
 
 pd.set_option('display.max_columns', 50)

@@ -66,7 +66,7 @@ def get_leadPart(part, product_line):
     return df_merge
 
 
-def get_partslist(CatItem, LeadTimes):
+def get_partslist(CatItem, LeadTimes, mfg_time=None):
     """ pulls a list of parts whose lead time is greater than allotted for current goal for a given catalog item
             lead time is a list of options, catalog items are a list
 
@@ -76,15 +76,14 @@ def get_partslist(CatItem, LeadTimes):
     parts_list = {}
     parts_cost = {}
 
+    mfg_time = mfg_time or 15  # in work days
+
     for item in CatItem:
         df_lead = get_leadCat(item)
         dict_key = item
-        dict_list = {}
-        dict_cost = {}
 
         for time in LeadTimes:
             lead_days = time * 5  # time is in weeks, convert to work days
-            mfg_time = 10  # in work days
             order_time = lead_days - mfg_time
             item_parts = []
             item_cost = 0.0
@@ -100,32 +99,25 @@ def get_partslist(CatItem, LeadTimes):
             if len(item_parts) == 0:
                 pass
             else:
-                dict_list[time] = item_parts
-                dict_cost[time] = item_cost
+                parts_list[(dict_key, time)] = item_parts
+                parts_cost[(dict_key, time)] = item_cost
 
-        if len(dict_list) == 0:
-            pass
-        else:
-            parts_list[dict_key] = dict_list
-            parts_cost[dict_key] = dict_cost
+    df_cost = pd.DataFrame.from_dict(parts_cost, orient='index', columns=['Inv_Cost']).fillna(0)
+    s_list = pd.Series(parts_list)
+    df_list = s_list.to_frame()
+    df_list.columns = ['Inv_Parts']
 
-    df_cost = pd.DataFrame.from_dict(parts_cost, orient='index').fillna(0)
-    df_list = pd.DataFrame.from_dict(parts_list, orient='index').fillna(0)
-
-    df_cost['CatalogItem'] = df_cost.index
-    df_list['CatalogItem'] = df_list.index
-
-    df_cost = df_cost.reset_index(drop=True)
-    df_list = df_list.reset_index(drop=True)
+    df_cost.index = pd.MultiIndex.from_tuples(df_cost.index, names=('CatalogItem','LeadTime'))
+    df_list.index.names = ['CatalogItem', 'LeadTime']
 
     return df_cost, df_list
 
 
-testLeads = [6, 8, 10, 12]  # weeks lead time
+testLeads = [3, 4, 8, 10, 12]  # weeks lead time
 testItems = ['USP-120AS50.88', 'USP-136AS50.88', 'USP-230AS50.88', '011-SLDFVLEX.88']
-testPrint = get_partslist(testItems, testLeads)
-# for df in testPrint:
-#     print(df, '\n')
+# cost, items = get_partslist(testItems, testLeads)
+# print(cost, '\n')
+# print(items.loc['USP-120AS50.88'])
 
 testItem = 'USP-120AS50.88'
 # print(get_leadCat(testItem).head())
