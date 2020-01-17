@@ -16,4 +16,10 @@ lead_times = LeadTimeUSP
 
 inv_df, demand_df = inventory_to_consider(product_line, lead_times, yearly_sale, mfg_time)
 
-print(inv_df.head())
+print(inv_df.sample(25))
+
+
+
+desc_obj = bom[bom.PartNumber == part].PartDesc
+                desc = desc_obj.item()
+                inv_df.loc[(catitem, lead, part), :] = (desc, lead_time, qty, price, cost)

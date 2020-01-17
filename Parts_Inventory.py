@@ -113,14 +113,15 @@ def get_partslist(CatItem, LeadTimes, mfg_time=None):
     return df_cost, df_list
 
 
-testLeads = [3, 4, 8, 10, 12]  # weeks lead time
-testItems = ['USP-120AS50.88', 'USP-136AS50.88', 'USP-230AS50.88', '011-SLDFVLEX.88']
-# cost, items = get_partslist(testItems, testLeads)
-# print(cost, '\n')
-# print(items.loc['USP-120AS50.88'])
+if __name__ =="__main__":
+    testLeads = [3, 4, 8, 10, 12]  # weeks lead time
+    testItems = ['USP-120AS50.88', 'USP-136AS50.88', 'USP-230AS50.88', '011-SLDFVLEX.88']
+    # cost, items = get_partslist(testItems, testLeads)
+    # print(cost, '\n')
+    # print(items.loc['USP-120AS50.88'])
 
-testItem = 'USP-120AS50.88'
-# print(get_leadCat(testItem).head())
+    testItem = 'USP-120AS50.88'
+    # print(get_leadCat(testItem).head())
 
-part = 'PTS1001'
-# print(get_leadPart(part, 'USP'))
+    part = 'PTS1001'
+    # print(get_leadPart(part, 'USP'))

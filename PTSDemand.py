@@ -66,6 +66,11 @@ def get_USPdemand():
     # add average demand per year
     years = len(demand.columns) - 1
     demand['avg_demand'] = demand['Total'] / years
+    demand['200_percent'] = round(demand.avg_demand * 2)
+    demand['180_percent'] = round(demand.avg_demand * 1.8)
+    demand['160_percent'] = round(demand.avg_demand * 1.6)
+    demand['140_percent'] = round(demand.avg_demand * 1.4)
+    demand['120_percent'] = round(demand.avg_demand * 1.2)
     demand['100_percent'] = round(demand.avg_demand)
     demand['80_percent'] = round(demand.avg_demand * 0.8)
     demand['60_percent'] = round(demand.avg_demand * 0.6)

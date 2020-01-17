@@ -64,14 +64,12 @@ def get_common(ProductList, most=None):
     return [df_all, df_most, df_everything], list_len, most
 
 
-
-
-
-CatItems = tracker.catalog['SAP Product Number']
-df_parts = tracker.catalog[['Product Line', 'SAP Product Number']]
-product_list = get_products("USP")
-testItem = ['USP-120AS50.88', 'USP-130AS25.88']
-testItem2 = ['USP-120AS50.88', 'USP-120AS25.88', 'USP-130AS50.88', 'USP-130AS25.88', 'USP-136AS50.88', 'USP-136AS25.88', 'USP-230AS50.88', 'USP-330AS50.88', 'USP-430AS50.88', 'USP-630AS50.88', 'USP-830AS50.88']
+if __name__ == "__main__":
+    CatItems = tracker.catalog['SAP Product Number']
+    df_parts = tracker.catalog[['Product Line', 'SAP Product Number']]
+    product_list = get_products("USP")
+    testItem = ['USP-120AS50.88', 'USP-130AS25.88']
+    testItem2 = ['USP-120AS50.88', 'USP-120AS25.88', 'USP-130AS50.88', 'USP-130AS25.88', 'USP-136AS50.88', 'USP-136AS25.88', 'USP-230AS50.88', 'USP-330AS50.88', 'USP-430AS50.88', 'USP-630AS50.88', 'USP-830AS50.88']
 
 
 

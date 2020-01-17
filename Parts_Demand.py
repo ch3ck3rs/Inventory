@@ -27,7 +27,8 @@ def inventory_to_consider(product_line, lead_times, yearly_sale=None, mfg_time=N
 
     ###
     # loop through catalog items to consider and append parts that are on the Inventory list
-    inv_df = pd.DataFrame(columns=['CatalogItem', 'TopLevel_LeadTime', 'Part', 'Item_LeadTime', 'Cost_per_unit'])
+    inv_df = pd.DataFrame(columns=['CatalogItem', 'TopLevel_LeadTime', 'Part', 'Description', 'Item_LeadTime',
+                                   'Qty', 'Price_of_Item', 'Cost_per_unit'])
     inv_df = inv_df.set_index(['CatalogItem', 'TopLevel_LeadTime', 'Part'])
     inv_df = inv_df.astype('float64')
 
@@ -44,7 +45,9 @@ def inventory_to_consider(product_line, lead_times, yearly_sale=None, mfg_time=N
                 qty_ = bom[bom.PartNumber == part].BomQty.max()
                 qty = qty_.item()
                 cost = price * qty
-                inv_df.loc[(catitem, lead, part), :] = (lead_time, cost)
+                desc_obj = bom[bom.PartNumber == part].PartDesc
+                desc = desc_obj.item()
+                inv_df.loc[(catitem, lead, part), :] = (desc, lead_time, qty, price, cost)
 
     return inv_df, demand
 
@@ -72,27 +75,27 @@ def cost_per_dmnd(product_line, lead_times, yearly_sale=None, mfg_time=None):
     return demand, per_unit, per_dmnd_cost
 
 
-###
-# Set up the analysis
-product_line = 'USP'
-mfg_time = 10  # work days
-yearly_sale = 1 # units sold per year on average
-
-LeadTimeUSP = [3, 3.5, 4, 5]
-LeadTimeLI = [4, 5, 6, 8, 10]
-
-###
-# Quick switch between lead times
-lead_times = LeadTimeUSP
-
-###
-# Analysis test
-
-# df = inventory_to_consider(product_line, LeadTimes, yearly_sale, mfg_time)
-
-# demand = get_demand(product_line)
-
-df = cost_per_dmnd(product_line, lead_times, yearly_sale, mfg_time)
+# ###
+# # Set up the analysis
+# product_line = 'USP'
+# mfg_time = 10  # work days
+# yearly_sale = 1 # units sold per year on average
+#
+# LeadTimeUSP = [3, 3.5, 4, 5]
+# LeadTimeLI = [4, 5, 6, 8, 10]
+#
+# ###
+# # Quick switch between lead times
+# lead_times = LeadTimeUSP
+#
+# ###
+# # Analysis test
+#
+# # df = inventory_to_consider(product_line, LeadTimes, yearly_sale, mfg_time)
+#
+# # demand = get_demand(product_line)
+#
+# df = cost_per_dmnd(product_line, lead_times, yearly_sale, mfg_time)
 
 
 
